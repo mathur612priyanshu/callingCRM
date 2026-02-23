@@ -17,7 +17,7 @@ const app = express();
 app.use(cors());
 createBucketIfNotExists();
 
-const port = 5000 || process.env.PORT;
+const port = process.env.PORT || 5002 ;
 
 
 app.use(bodyParser.json());
