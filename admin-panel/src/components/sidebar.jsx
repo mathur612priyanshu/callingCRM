@@ -10,9 +10,9 @@ const Sidebar = () => {
     { path: "/", label: "Dashboard", icon: "home" },
     { path: "/leads", label: "Leads", icon: "document" },
     { path: "/add-users", label: "Add Employees", icon: "user-add" },
-    { path: "/attendance", label: "Attendance", icon: "calendar" },
-    { path: "/tasks", label: "Tasks", icon: "task" },
-    { path: "/template", label: "Template", icon: "template" },
+    // { path: "/attendance", label: "Attendance", icon: "calendar" },
+    // { path: "/tasks", label: "Tasks", icon: "task" },
+    // { path: "/template", label: "Template", icon: "template" },
     { path: "/performance", label: "Performance Report", icon: "performance" },
     { path: "/lead_report", label: "Lead Report", icon: "lead_report" },
     { path: "/logout", label: "Logout", icon: "logout" },
@@ -74,7 +74,8 @@ const Sidebar = () => {
         <div className="w-full flex items-center justify-center mb-8">
           <Link to="/">
             <div className="flex items-center justify-center bg-white p-2 rounded-lg">
-              <img src="/logo.png" alt="logo" className="w-[160px] object-contain" />
+              {/* <img src="/logo.png" alt="logo" className="w-[160px] object-contain" /> */}
+              <div className="text-black">CALLING CRM</div>
             </div>
           </Link>
         </div>
