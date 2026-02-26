@@ -35,18 +35,18 @@ const Lead = sequelize.define(
     dob :{
       type: DataTypes.DATEONLY
     },
-    branch: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    source: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    priority: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+    // branch: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
+    // source: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
+    // priority: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
     status: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -58,13 +58,13 @@ const Lead = sequelize.define(
     employment_type: {
       type: DataTypes.STRING,
     },
-    loan_term: {
-      type: DataTypes.STRING
-    },
-    refrence: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+    // loan_term: {
+    //   type: DataTypes.STRING
+    // },
+    // refrence: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
     description: {
       type: DataTypes.TEXT,
       allowNull: true,
@@ -73,11 +73,11 @@ const Lead = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true
     },
-    loan_type: {
-      type : DataTypes.TEXT,
-      allowNull: null
-    },
-    est_budget: {
+    // loan_type: {
+    //   type : DataTypes.TEXT,
+    //   allowNull: null
+    // },
+    est_salary: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -85,7 +85,7 @@ const Lead = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    salary:{
+    company_name:{
       type: DataTypes.STRING,
     }
   },

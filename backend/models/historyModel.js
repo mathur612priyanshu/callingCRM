@@ -23,9 +23,9 @@ const History = sequelize.define(
         status:{
             type: DataTypes.STRING
         },
-        loanType: {
-            type: DataTypes.STRING
-        },
+        // loanType: {
+        //     type: DataTypes.STRING
+        // },
         remark: {
             type: DataTypes.STRING
         }
