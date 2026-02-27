@@ -108,34 +108,34 @@ exports.createuserusingexcel = async (req, res) => {
 
     for (const row of data) {
       const {
-        "Employee Id": employeeId,
-        Name: name,
+        "User Name": userName,
+        "Name": name,
         "Mobile Number": phone,
         "Email Id": email,
       } = row;
       const password = Math.floor(
         10000000 + Math.random() * 90000000
       ).toString();
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // const hashedPassword = await bcrypt.hash(password, 10);
 
       const newUser = await Employee.create({
-        emp_id: employeeId,
+        // emp_id: employeeId,
         ename: name,
         phone,
         email,
-        username: employeeId,
+        username: userName,
         password: password,
       });
       // const mailOptions = {
       //   from: process.env.EMAIL_USER,
       //   to: email,
       //   subject: "Your login Details for website",
-      //   text: `Your employee ID is: ${employeeId}\nYour temporary password is: ${password}\nPlease change your password after first login.`,
+      //   text: `Your employee User Name is: ${userName}\nYour temporary password is: ${password}\nPlease change your password after first login.`,
       // };
       // await transporter.sendMail(mailOptions);
 
       createdUsers.push({
-        employeeId: newUser.employeeId,
+        username: newUser.username,
         name: newUser.name,
         email: newUser.email,
         password: password, // Note: This is the unhashed password

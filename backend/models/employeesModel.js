@@ -5,9 +5,10 @@ const Employee = sequelize.define(
   "Employee",
   {
     emp_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
+      autoIncrement: true
     },
     email: {
       type: DataTypes.STRING,
