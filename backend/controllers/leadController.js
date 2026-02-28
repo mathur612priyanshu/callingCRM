@@ -355,12 +355,18 @@ exports.getLeadCountByEmpId = async (req, res) => {
         person_id: emp_id
       }
     });
+    const joinedCount = await Lead.count({
+      where:{
+        person_id : emp_id,
+        status: "Joined"
+      }
+    })
 
     // File Login status count (specific to this employee)
-    const fileLoginLeads = await Lead.findAll({
+    const interviewSelected = await Lead.findAll({
       where: {
         person_id: emp_id,
-        status: 'File Login'
+        status: 'Interview Selected'
       }
     });
 
@@ -400,9 +406,10 @@ exports.getLeadCountByEmpId = async (req, res) => {
 
     return res.status(200).json({
       totalLeads: leadsCount,
-      fileLoginCount : fileLoginLeads,
+      interviewSelectedCount : interviewSelected,
       todayFollowups: todayLeads,
       tomorrowFollowups: tomorrowLeads,
+      totalJoined : joinedCount
     });
 
   } catch (error) {
