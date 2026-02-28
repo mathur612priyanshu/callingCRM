@@ -12,14 +12,14 @@ class DynamicBarChart extends StatelessWidget {
     "Call Back",
     "No Requirement",
     "Follow up",
-    "Document Rejected",
-    "Document Pending",
-    "Not Pick",
-    "Not Connected",
-    "File Login",
-    "Loan Section",
-    "Loan Disbursement",
-    "Fresh Lead",
+    "Interview Rejected",
+    "Interview Pending",
+    "Interview Done",
+    "Interview Selected",
+    "Joined",
+    "1 month Completed",
+    "2 months Completed",
+    "3 Months Completed",
   ];
 
   final List<Color> boxColorList = [

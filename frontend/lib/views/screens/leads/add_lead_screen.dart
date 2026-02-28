@@ -21,19 +21,19 @@ class AddLeadScreen extends StatefulWidget {
   var contactNumber;
   // var email;
   // var branch;
-  var source;
-  var priority;
+  // var source;
+  // var priority;
   var status;
   var next_meeting;
-  var refrence;
+  // var refrence;
   var remark;
   var description;
   var address;
-  var loanType;
+  // var loanType;
   // var dob;
-  var loanAmount;
+  var expectedSalary;
   var employmentType;
-  // var loanTerm;
+  var company_name;
   AddLeadScreen({
     super.key,
     required this.title,
@@ -44,19 +44,19 @@ class AddLeadScreen extends StatefulWidget {
     this.contactNumber,
     // this.email,
     // this.branch,
-    this.source,
+    // this.source,
     this.address,
     this.description,
     this.next_meeting,
-    this.priority,
-    this.refrence,
+    // this.priority,
+    // this.refrence,
     this.remark,
     this.status,
-    this.loanType,
+    // this.loanType,
     // this.dob,
-    this.loanAmount,
+    this.expectedSalary,
     this.employmentType,
-    // this.loanTerm,
+    this.company_name,
   });
 
   @override
@@ -68,72 +68,73 @@ class _AddLeadScreenState extends State<AddLeadScreen> {
   final TextEditingController contactNumberController = TextEditingController();
   // final TextEditingController emailController = TextEditingController();
   final TextEditingController ownerController = TextEditingController();
-  final TextEditingController referenceController = TextEditingController();
+  // final TextEditingController referenceController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController loanPercentageController =
-      TextEditingController();
+  // final TextEditingController loanPercentageController =
+  //     TextEditingController();
   // TextEditingController branchController = TextEditingController();
-  TextEditingController sourceController = TextEditingController();
-  TextEditingController levelController = TextEditingController();
+  // TextEditingController sourceController = TextEditingController();
+  // TextEditingController levelController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   TextEditingController nextMeetingTimeController = TextEditingController();
-  TextEditingController loanTypeController = TextEditingController();
+  // TextEditingController loanTypeController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   // TextEditingController dobController = TextEditingController();
-  TextEditingController loanAmountController = TextEditingController();
+  TextEditingController expectedSalaryController = TextEditingController();
   TextEditingController employmentTypeController = TextEditingController();
-  // TextEditingController LoanTermController = TextEditingController();
+  TextEditingController companyNameController = TextEditingController();
   TextEditingController remarkController = TextEditingController();
-  File? lastSalaryController;
-  File? cibilController;
-  File? identityController;
-  File? fileDetailsController;
+  // File? lastSalaryController;
+  // File? cibilController;
+  // File? identityController;
+  // File? fileDetailsController;
 
   // List<String> branchOptions = ["Default"];
-  List<String> sourceOptions = [
-    // "Internet",
-    // "Newspaper",
-    // "Website",
-    "Self",
-    "Refrence",
-    "Bulk excel",
-  ];
-  List<String> levelOptions = [
-    // "Lower",
-    // "Mid",
-    // "Important",
-    // "High Priority and Important",
-    "Priority",
-    "Non-Priority",
-  ];
+  // List<String> sourceOptions = [
+  //   // "Internet",
+  //   // "Newspaper",
+  //   // "Website",
+  //   "Self",
+  //   "Refrence",
+  //   "Bulk excel",
+  // ];
+  // List<String> levelOptions = [
+  //   // "Lower",
+  //   // "Mid",
+  //   // "Important",
+  //   // "High Priority and Important",
+  //   "Priority",
+  //   "Non-Priority",
+  // ];
   List<String> statusOptions = [
     "Interested",
     "Call Back",
     "No Requirement",
     "Follow up",
-    "Document Rejected",
-    "Document Pending",
-    "Not Pick",
-    "Not Connected",
-    "File Login",
-    "Loan Section",
-    "Loan Disbursement",
+    "Interview Rejected",
+    "Interview Pending",
+    "Interview Done",
+    "Interview Selected",
+    "Joined",
+    "1 Month Completed",
+    "2 Months Completed",
+    "3 Months Completed",
   ];
-  List<String> loanType = [
-    "Home Loan",
-    "Mortgage Loan",
-    "User Car Loan",
-    "Business Loan",
-    "Personal Loan",
-    "DOD",
-    "CC/OD",
-    "CGTMSME",
-    "Mutual Fund",
-    "Insurance",
-    "Other",
-  ];
-  List<String> employmentType = ["Self Employed", "Salary Person"];
-  List<String> loanTerm = ["Monthly", "Yearly"];
+  // List<String> loanType = [
+  //   "Home Loan",
+  //   "Mortgage Loan",
+  //   "User Car Loan",
+  //   "Business Loan",
+  //   "Personal Loan",
+  //   "DOD",
+  //   "CC/OD",
+  //   "CGTMSME",
+  //   "Mutual Fund",
+  //   "Insurance",
+  //   "Other",
+  // ];
+  List<String> employmentType = ["Full Time", "Internship", "Contract Basis"];
+  // List<String> loanTerm = ["Monthly", "Yearly"];
 
   void handleSubmit() async {
     int idOfLead;
@@ -150,19 +151,19 @@ class _AddLeadScreenState extends State<AddLeadScreen> {
         // email: emailController.text,
         owner: ownerController.text,
         // branch: branchController.text,
-        source: sourceController.text,
-        priority: levelController.text,
+        // source: sourceController.text,
+        // priority: levelController.text,
         status: statusController.text,
         next_meeting: nextMeetingTimeController.text,
-        refrence: referenceController.text,
+        // refrence: referenceController.text,
         remark: remarkController.text,
         description: descriptionController.text,
         address: addressController.text,
-        loanType: loanTypeController.text,
+        // loanType: loanTypeController.text,
         // dob: dobController.text,
         employment_type: employmentTypeController.text,
-        // loan_term: LoanTermController.text,
-        est_budget: loanAmountController.text,
+        company_name: companyNameController.text,
+        est_salary: expectedSalaryController.text,
       );
       Leads oldLead = await ApiService.getLeadByNumber(
         contactNumberController.text,
@@ -201,7 +202,7 @@ class _AddLeadScreenState extends State<AddLeadScreen> {
         owner: ownerController.text,
         next_meeting: nextMeetingTimeController.text,
         status: statusController.text,
-        loanType: loanTypeController.text,
+        // loanType: loanTypeController.text,
         remark: remarkController.text,
       );
       Provider.of<HistoryProvider>(
@@ -252,7 +253,7 @@ class _AddLeadScreenState extends State<AddLeadScreen> {
     // TODO: implement initState
     super.initState();
     ownerController.text = widget.userName;
-    levelController.text = "Lower";
+    // levelController.text = "Lower";
 
     contactNameController.text =
         widget.contactName == null ? "" : widget.contactName;
@@ -260,21 +261,21 @@ class _AddLeadScreenState extends State<AddLeadScreen> {
     contactNumberController.text =
         widget.contactNumber == null ? "" : widget.contactNumber;
     // emailController.text = widget.email == null ? "" : widget.email;
-    // branchController.text = widget.branch == null ? "" : widget.branch;
-    sourceController.text = widget.source == null ? "" : widget.source;
-    levelController.text = widget.priority == null ? "" : widget.priority;
+    // // branchController.text = widget.branch == null ? "" : widget.branch;
+    // sourceController.text = widget.source == null ? "" : widget.source;
+    // levelController.text = widget.priority == null ? "" : widget.priority;
     statusController.text = widget.status == null ? "" : widget.status;
     nextMeetingTimeController.text =
         widget.next_meeting == null ? "" : widget.next_meeting;
-    referenceController.text = widget.refrence == null ? "" : widget.refrence;
+    // referenceController.text = widget.refrence == null ? "" : widget.refrence;
     remarkController.text = widget.remark == null ? "" : widget.remark;
     descriptionController.text =
         widget.description == null ? "" : widget.description;
     addressController.text = widget.address == null ? "" : widget.address;
-    loanTypeController.text = widget.loanType == null ? "" : widget.loanType;
+    // loanTypeController.text = widget.loanType == null ? "" : widget.loanType;
     // dobController.text = widget.dob == null ? "" : widget.dob;
-    loanAmountController.text =
-        widget.loanAmount == null ? "" : widget.loanAmount;
+    // loanAmountController.text =
+    //     widget.loanAmount == null ? "" : widget.loanAmount;
     // LoanTermController.text = widget.loanTerm == null ? "" : widget.loanTerm;
     employmentTypeController.text =
         widget.employmentType == null ? "" : widget.employmentType;
@@ -284,7 +285,7 @@ class _AddLeadScreenState extends State<AddLeadScreen> {
   void dispose() {
     contactNameController.dispose();
     ownerController.dispose();
-    referenceController.dispose();
+    // referenceController.dispose();
     descriptionController.dispose();
     remarkController.dispose();
     super.dispose();
@@ -323,13 +324,14 @@ class _AddLeadScreenState extends State<AddLeadScreen> {
                 maxLine: 1,
               ),
               const SizedBox(height: 16),
-              // CustomTextField(hint: "Email", controller: emailController),
-              const SizedBox(height: 12),
 
-              const SectionTitle(title: "Company Other Details"),
-              const SizedBox(height: 8),
-              CustomTextField(hint: "Owner", controller: ownerController),
-              const SizedBox(height: 12),
+              // CustomTextField(hint: "Email", controller: emailController),
+              // const SizedBox(height: 12),
+              const SectionTitle(title: "Candidate Other Details"),
+              // const SizedBox(height: 8),
+
+              // CustomTextField(hint: "Owner", controller: ownerController),
+              // const SizedBox(height: 12),
               // CustomDropdown(
               //   hint: "-- Select Branch --",
               //   options: branchOptions,
@@ -338,32 +340,28 @@ class _AddLeadScreenState extends State<AddLeadScreen> {
               //   },
               // ),
               // const SizedBox(height: 12),
-              CustomDropdown(
-                hint:
-                    widget.source == null || widget.source.isEmpty
-                        ? "-- Select Source --"
-                        : widget.source,
-                options: sourceOptions,
-                onChange: (value) {
-                  sourceController.text = value;
-                },
-              ),
-              const SizedBox(height: 12),
-              CustomTextField(
-                hint: "Reference",
-                controller: referenceController,
-              ),
-              const SizedBox(height: 12),
-              CustomDropdown(
-                hint:
-                    widget.priority == null || widget.priority.isEmpty
-                        ? "Non-Priority"
-                        : widget.priority,
-                options: levelOptions,
-                onChange: (value) {
-                  levelController.text = value;
-                },
-              ),
+              // CustomDropdown(
+              //   hint:
+              //       widget.source == null || widget.source.isEmpty
+              //           ? "-- Select Source --"
+              //           : widget.source,
+              //   options: sourceOptions,
+              //   onChange: (value) {
+              //     sourceController.text = value;
+              //   },
+              // ),
+              // const SizedBox(height: 12),
+              // const SizedBox(height: 12),
+              // CustomDropdown(
+              //   hint:
+              //       widget.priority == null || widget.priority.isEmpty
+              //           ? "Non-Priority"
+              //           : widget.priority,
+              //   options: levelOptions,
+              //   onChange: (value) {
+              //     levelController.text = value;
+              //   },
+              // ),
               const SizedBox(height: 12),
               if (widget.title == "Add Lead")
                 CustomDropdown(
@@ -416,7 +414,7 @@ class _AddLeadScreenState extends State<AddLeadScreen> {
                       child: TextFormField(
                         controller: nextMeetingTimeController,
                         decoration: InputDecoration(
-                          hintText: 'Select Next Meeting Date',
+                          hintText: 'Select Next Calling Date',
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -472,10 +470,14 @@ class _AddLeadScreenState extends State<AddLeadScreen> {
               //     ),
               //   ),
               // ),
-              // const SizedBox(height: 16),
               CustomTextField(
-                hint: "Enter loan Amount",
-                controller: loanAmountController,
+                hint: "CompanyName",
+                controller: companyNameController,
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                hint: "Enter Expected Salary",
+                controller: expectedSalaryController,
                 maxLine: 1,
               ),
               const SizedBox(height: 16),
@@ -502,16 +504,16 @@ class _AddLeadScreenState extends State<AddLeadScreen> {
               //   },
               // ),
               const SizedBox(height: 16),
-              CustomDropdown(
-                hint:
-                    widget.loanType == null || widget.loanType.isEmpty
-                        ? "--Loan Type--"
-                        : widget.loanType,
-                options: loanType,
-                onChange: (value) {
-                  loanTypeController.text = value;
-                },
-              ),
+              // CustomDropdown(
+              //   hint:
+              //       widget.loanType == null || widget.loanType.isEmpty
+              //           ? "--Loan Type--"
+              //           : widget.loanType,
+              //   options: loanType,
+              //   onChange: (value) {
+              //     loanTypeController.text = value;
+              //   },
+              // ),
               // SizedBox(height: 10),
               // addDocumentContainer(
               //   documentName: "Last 3 months Salary",

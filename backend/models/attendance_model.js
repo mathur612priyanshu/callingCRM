@@ -32,6 +32,14 @@ const Attendance = sequelize.define("Attendance", {
   remark:{
     type:DataTypes.STRING,
     allowNull: true
+  },
+  latitude:{
+    type: DataTypes.DOUBLE,
+    allowNull: true
+  },
+  longitude: {
+    type: DataTypes.DOUBLE,
+    allowNull: true
   }
 });
 Attendance.sync({ alter: false })

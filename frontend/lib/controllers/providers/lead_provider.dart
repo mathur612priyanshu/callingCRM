@@ -159,15 +159,15 @@ class LeadProvider with ChangeNotifier {
             // dob: updatedLead.dob ?? oldLead.dob,
             owner: updatedLead.owner ?? oldLead.owner,
             // branch: updatedLead.branch ?? oldLead.branch,
-            source: updatedLead.source ?? oldLead.source,
-            priority: updatedLead.priority ?? oldLead.priority,
+            // source: updatedLead.source ?? oldLead.source,
+            // priority: updatedLead.priority ?? oldLead.priority,
             status: updatedLead.status ?? oldLead.status,
             next_meeting: updatedLead.next_meeting ?? oldLead.next_meeting,
-            refrence: updatedLead.refrence ?? oldLead.refrence,
+            // refrence: updatedLead.refrence ?? oldLead.refrence,
             description: updatedLead.description ?? oldLead.description,
             address: updatedLead.address ?? oldLead.address,
-            loanType: updatedLead.loanType ?? oldLead.loanType,
-            est_budget: updatedLead.est_budget ?? oldLead.est_budget,
+            // loanType: updatedLead.loanType ?? oldLead.loanType,
+            est_salary: updatedLead.est_salary ?? oldLead.est_salary,
             remark: updatedLead.remark ?? oldLead.remark,
             createdAt: oldLead.createdAt,
             employment_type:
@@ -176,16 +176,16 @@ class LeadProvider with ChangeNotifier {
           );
 
           // File login handling
-          if (oldLead.status == "File Login" &&
-              updatedLead.status != "File Login") {
-            _fileLoginLeads.removeWhere(
-              (lead) => lead.lead_id == oldLead.lead_id,
-            );
-          }
-          if (updatedLead.status == "File Login" &&
-              oldLead.status != "File Login") {
-            _fileLoginLeads.insert(0, mergedLead);
-          }
+          // if (oldLead.status == "File Login" &&
+          //     updatedLead.status != "File Login") {
+          //   _fileLoginLeads.removeWhere(
+          //     (lead) => lead.lead_id == oldLead.lead_id,
+          //   );
+          // }
+          // if (updatedLead.status == "File Login" &&
+          //     oldLead.status != "File Login") {
+          //   _fileLoginLeads.insert(0, mergedLead);
+          // }
 
           // Replace in _leads
           _leads[index] = mergedLead;

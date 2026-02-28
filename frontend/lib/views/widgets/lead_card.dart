@@ -114,6 +114,21 @@ class _LeadCardState extends State<LeadCard> {
                   children: [
                     Row(
                       children: [
+                        const Icon(Icons.other_houses_outlined),
+                        const SizedBox(width: 5),
+                        Text(
+                          ((widget.lead.company_name ?? "").length > 15
+                              ? (widget.lead.company_name ?? "").substring(
+                                    0,
+                                    12,
+                                  ) +
+                                  "..."
+                              : (widget.lead.company_name ?? "")),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
                         const Icon(Icons.person),
                         const SizedBox(width: 5),
                         Text(
@@ -124,13 +139,13 @@ class _LeadCardState extends State<LeadCard> {
                         ),
                       ],
                     ),
-                    Row(
-                      children: [
-                        const Icon(Icons.public),
-                        const SizedBox(width: 5),
-                        Text(widget.lead.source ?? ""),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     const Icon(Icons.public),
+                    //     const SizedBox(width: 5),
+                    //     Text(widget.lead.source ?? ""),
+                    //   ],
+                    // ),
                     Row(
                       children: [
                         const Icon(Icons.timer),
@@ -144,19 +159,19 @@ class _LeadCardState extends State<LeadCard> {
                       ],
                     ),
                     // Icon(Icons.forum),
-                    Row(
-                      children: [
-                        const Icon(Icons.stairs),
-                        const SizedBox(width: 5),
-                        Text(
-                          ((widget.lead.priority ?? "").length > 15
-                              ? (widget.lead.priority ?? "").substring(0, 12) +
-                                  "..."
-                              : (widget.lead.priority ?? "")),
-                          style: const TextStyle(color: Colors.purple),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     const Icon(Icons.stairs),
+                    //     const SizedBox(width: 5),
+                    //     Text(
+                    //       ((widget.lead.priority ?? "").length > 15
+                    //           ? (widget.lead.priority ?? "").substring(0, 12) +
+                    //               "..."
+                    //           : (widget.lead.priority ?? "")),
+                    //       style: const TextStyle(color: Colors.purple),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
                 Column(
@@ -238,15 +253,15 @@ class _LeadCardState extends State<LeadCard> {
                       ],
                     ),
                     // Icon(Icons.forum),
-                    Row(
-                      children: [
-                        const Icon(Icons.money_rounded),
-                        const SizedBox(width: 5),
-                        Text(
-                          "${widget.lead.salary != null && widget.lead.salary != "" ? widget.lead.salary : ""}",
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     const Icon(Icons.money_rounded),
+                    //     const SizedBox(width: 5),
+                    //     Text(
+                    //       "${widget.lead.salary != null && widget.lead.salary != "" ? widget.lead.salary : ""}",
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ],

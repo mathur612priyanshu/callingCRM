@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 const SECRETE_KEY = process.env.SECRET_KEY;
 
 exports.addEmployee = async (req, res) => {
-  const { emp_id, email, username, ename, password, phone} = req.body;
+  const { email, username, ename, password, phone} = req.body;
 
   if (!username || !password) {
     return res
@@ -18,7 +18,6 @@ exports.addEmployee = async (req, res) => {
 
   try {
     const newEmployee = await Employee.create({
-      emp_id,
       email,
       phone,
       username,
@@ -28,7 +27,7 @@ exports.addEmployee = async (req, res) => {
 
     return res.status(200).json({
       message: "employee added successfully",
-      id: newEmployee.emp_id, // or newEmployee.id depending on schema
+      // id: newEmployee.emp_id, // or newEmployee.id depending on schema
     });
   } catch (error) {
     console.error("Error adding employee:", error);

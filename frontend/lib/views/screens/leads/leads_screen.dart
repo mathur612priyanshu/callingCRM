@@ -29,20 +29,20 @@ class _LeadsScreenState extends State<LeadsScreen> {
   ); // Changed to reasonable default
   DateTime? endDate = DateTime.now();
 
-  final List<String> loanTypeOptions = [
-    "All",
-    "Home Loan",
-    "Mortgage Loan",
-    "User Car Loan",
-    "Business Loan",
-    "Personal Loan",
-    "DOD",
-    "CC/OD",
-    "CGTMSME",
-    "Mutual Fund",
-    "Insurance",
-    "Other",
-  ];
+  // final List<String> loanTypeOptions = [
+  //   "All",
+  //   "Home Loan",
+  //   "Mortgage Loan",
+  //   "User Car Loan",
+  //   "Business Loan",
+  //   "Personal Loan",
+  //   "DOD",
+  //   "CC/OD",
+  //   "CGTMSME",
+  //   "Mutual Fund",
+  //   "Insurance",
+  //   "Other",
+  // ];
 
   final List<String> statusOptions = [
     "All",
@@ -50,13 +50,14 @@ class _LeadsScreenState extends State<LeadsScreen> {
     "Call Back",
     "No Requirement",
     "Follow up",
-    "Document Rejected",
-    "Document Pending",
-    "Not Pick",
-    "Not Connected",
-    "File Login",
-    "Loan Section",
-    "Loan Disbursement",
+    "Interview Rejected",
+    "Interview Pending",
+    "Interview Done",
+    "Interview Selected",
+    "Joined",
+    "1 month Completed",
+    "2 months Completed",
+    "3 Months Completed",
   ];
 
   @override
@@ -79,8 +80,8 @@ class _LeadsScreenState extends State<LeadsScreen> {
 
     final filteredLeads =
         leads.where((lead) {
-          final matchesLoan =
-              loanSelectedItem == "All" || lead.loanType == loanSelectedItem;
+          // final matchesLoan =
+          //     loanSelectedItem == "All" || lead.loanType == loanSelectedItem;
 
           final matchesStatus =
               selectedStatusItem == "All"
@@ -93,28 +94,28 @@ class _LeadsScreenState extends State<LeadsScreen> {
               lead.name.toLowerCase().contains(searchQuery.toLowerCase()) ||
               lead.number.contains(searchQuery);
 
-          return matchesLoan && matchesStatus && matchesSearch;
+          return matchesStatus && matchesSearch;
         }).toList();
 
     return AppScaffold(
       isFloatingActionButton: true,
       appBar: CustomAppbar(
         title: "Leads",
-        action: [
-          const SizedBox(width: 10),
-          DropdownButton<String>(
-            value: loanSelectedItem,
-            underline: const SizedBox(),
-            items:
-                loanTypeOptions.map((type) {
-                  return DropdownMenuItem(
-                    value: type,
-                    child: Text(type, style: const TextStyle(fontSize: 14)),
-                  );
-                }).toList(),
-            onChanged: (value) => setState(() => loanSelectedItem = value!),
-          ),
-        ],
+        // action: [
+        //   const SizedBox(width: 10),
+        //   DropdownButton<String>(
+        //     value: loanSelectedItem,
+        //     underline: const SizedBox(),
+        //     items:
+        //         loanTypeOptions.map((type) {
+        //           return DropdownMenuItem(
+        //             value: type,
+        //             child: Text(type, style: const TextStyle(fontSize: 14)),
+        //           );
+        //         }).toList(),
+        //     onChanged: (value) => setState(() => loanSelectedItem = value!),
+        //   ),
+        // ],
       ),
       body: SafeArea(
         child: Column(

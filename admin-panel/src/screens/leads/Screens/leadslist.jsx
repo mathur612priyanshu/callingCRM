@@ -22,22 +22,28 @@ const LeadsList = () => {
   const itemsPerPage = 20;
   const navigate = useNavigate();
 
-  const getTodayRange = () => {
-    const now = new Date();
-    const firstDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const lastDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1 );
-    const format = (date) => {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    };
-    return {
-      from: format(firstDay),
-      to: format(lastDay),
-    };
+  const getMonthRange = () => {
+  const now = new Date();
+
+  // First day of current month
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  // Last day of current month
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+  const format = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
-  const { from, to } = getTodayRange();
+
+  return {
+    from: format(firstDay),
+    to: format(lastDay),
+  };
+};
+  const { from, to } = getMonthRange();
   const [fromDate, setFromDate] = useState(from);
   const [toDate, setToDate] = useState(to);
 

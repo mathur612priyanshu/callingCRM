@@ -7,20 +7,20 @@ class Leads {
   // final dob;
   final owner;
   // final branch;
-  final source;
-  final priority;
+  // final source;
+  // final priority;
   final status;
   final next_meeting;
-  final refrence;
+  // final refrence;
   final description;
   final address;
-  final loanType;
-  final est_budget;
+  // final loanType;
+  final est_salary;
   final remark;
   final createdAt;
   final employment_type;
   // final loan_term;
-  final salary;
+  final company_name;
 
   Leads({
     this.lead_id,
@@ -31,20 +31,20 @@ class Leads {
     // this.dob,
     this.owner,
     // this.branch,
-    this.source,
-    this.priority,
+    // this.source,
+    // this.priority,
     this.status,
     this.next_meeting,
-    this.refrence,
+    // this.refrence,
     this.description,
     this.address,
-    this.loanType,
-    this.est_budget,
+    // this.loanType,
+    this.est_salary,
     this.remark,
     this.createdAt,
     this.employment_type,
     // this.loan_term,
-    this.salary,
+    this.company_name,
   });
 
   Map<String, dynamic> toJson() {
@@ -56,19 +56,19 @@ class Leads {
     // if (dob != null) json["dob"] = dob;
     if (owner != null) json["owner"] = owner;
     // if (branch != null) json["branch"] = branch;
-    if (source != null) json["source"] = source;
-    if (priority != null) json["priority"] = priority;
+    // if (source != null) json["source"] = source;
+    // if (priority != null) json["priority"] = priority;
     if (status != null) json["status"] = status;
     if (next_meeting != null) json["next_meeting"] = next_meeting;
-    if (refrence != null) json["refrence"] = refrence;
+    // if (refrence != null) json["refrence"] = refrence;
     if (description != null) json["description"] = description;
     if (address != null) json["address"] = address;
-    if (loanType != null) json["loan_type"] = loanType;
-    if (est_budget != null) json["est_budget"] = est_budget;
+    // if (loanType != null) json["loan_type"] = loanType;
+    if (est_salary != null) json["est_salary"] = est_salary;
     if (remark != null) json["remark"] = remark;
     if (employment_type != null) json["employment_type"] = employment_type;
     // if (loan_term != null) json["loan_term"] = loan_term;
-    if (salary != null) json["salary"] = salary;
+    if (company_name != null) json["company_name"] = company_name;
     return json;
   }
 
@@ -78,22 +78,22 @@ class Leads {
       name: json['name'] ?? "",
       number: json['number'] ?? "",
       owner: json['owner'] ?? "",
-      source: json['source'] ?? "",
+      // source: json['source'] ?? "",
       createdAt: json['createdAt'] ?? "",
-      priority: json['priority'] ?? "",
+      // priority: json['priority'] ?? "",
       status: json['status'] ?? "",
       description: json['description'] ?? "",
       next_meeting: json['next_meeting'] ?? "",
-      est_budget: json['est_budget'] ?? "",
+      est_salary: json['est_budget'] ?? "",
       address: json['address'] ?? "",
       email: json['email'] ?? "",
-      refrence: json['refrence'] ?? "",
-      loanType: json['loan_type'] ?? "",
+      // refrence: json['refrence'] ?? "",
+      // loanType: json['loan_type'] ?? "",
       remark: json['remark'] ?? "",
       // dob: json['dob'] ?? "",
       employment_type: json['employment_type'] ?? "",
       // loan_term: json['loan_term'] ?? "",
-      salary: json['salary'] ?? "",
+      company_name: json['company_name'] ?? "",
     );
   }
 }

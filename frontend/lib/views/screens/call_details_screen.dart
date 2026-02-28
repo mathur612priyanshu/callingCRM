@@ -28,11 +28,11 @@ class CallDetailsScreen extends StatefulWidget {
 class _CallDetailsScreenState extends State<CallDetailsScreen> {
   String? feedbackStatus;
 
-  String? priority;
+  // String? priority;
 
-  String? source;
+  // String? source;
 
-  String? loanType;
+  // String? loanType;
 
   final TextEditingController nextMeetingController = TextEditingController();
 
@@ -42,18 +42,19 @@ class _CallDetailsScreenState extends State<CallDetailsScreen> {
   final TextEditingController contactNameController = TextEditingController();
 
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController companyNameController = TextEditingController();
 
   void handleSubmission() async {
     updateCall();
     if (feedbackStatus == null) {
       feedbackStatus = widget.lead.status;
     }
-    if (loanType == null) {
-      loanType = widget.lead.loanType;
-    }
-    if (priority == null) {
-      priority = widget.lead.priority;
-    }
+    // if (loanType == null) {
+    //   loanType = widget.lead.loanType;
+    // }
+    // if (priority == null) {
+    //   priority = widget.lead.priority;
+    // }
 
     if (nextMeetingController.text.isEmpty) {
       nextMeetingController.text = widget.lead.next_meeting;
@@ -67,10 +68,10 @@ class _CallDetailsScreenState extends State<CallDetailsScreen> {
 
     Leads updateLead = Leads(
       status: feedbackStatus!,
-      loanType: loanType,
-      priority: priority!,
+      // loanType: loanType,
+      // priority: priority!,
       next_meeting: nextMeetingController.text,
-      est_budget: budgetController.text,
+      est_salary: budgetController.text,
       remark: remarkController.text,
     );
 
@@ -79,7 +80,7 @@ class _CallDetailsScreenState extends State<CallDetailsScreen> {
       owner: widget.lead.owner,
       next_meeting: nextMeetingController.text,
       status: feedbackStatus,
-      loanType: loanType,
+      // loanType: loanType,
       remark: remarkController.text,
     );
     Provider.of<LeadProvider>(
@@ -143,20 +144,27 @@ class _CallDetailsScreenState extends State<CallDetailsScreen> {
       ).showSnackBar(SnackBar(content: Text("fill contact name")));
       return;
     }
+    if (companyNameController.text.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("fill company name")));
+      return;
+    }
     final user = Provider.of<UserProvider>(context, listen: false).user;
     Leads newLead = Leads(
       name: contactNameController.text,
       number: widget.number,
       person_id: user?.empId,
       owner: user?.ename,
-      source: source,
+      // source: source,
       description: descriptionController.text,
       status: feedbackStatus,
       next_meeting: nextMeetingController.text,
       remark: remarkController.text,
-      est_budget: budgetController.text,
-      loanType: loanType,
-      priority: priority,
+      est_salary: budgetController.text,
+      company_name: companyNameController.text,
+      // loanType: loanType,
+      // priority: priority,
     );
     // bool success = await ApiService.addLead(newLead);
     int newLeadId = await Provider.of<LeadProvider>(
@@ -181,7 +189,7 @@ class _CallDetailsScreenState extends State<CallDetailsScreen> {
       next_meeting: nextMeetingController.text,
       status: feedbackStatus,
       remark: remarkController.text,
-      loanType: loanType,
+      // loanType: loanType,
     );
     // await ApiService.addHistory(newHistory);
     Provider.of<HistoryProvider>(context, listen: false).addHistory(newHistory);
@@ -269,75 +277,92 @@ class _CallDetailsScreenState extends State<CallDetailsScreen> {
                     "Call Back",
                     "No Requirement",
                     "Follow up",
-                    "Document Rejected",
-                    "Document Pending",
-                    "Not Pick",
-                    "Not Connected",
-                    "File Login",
-                    "Loan Section",
-                    "Loan Disbursement",
+                    "Interview Rejected",
+                    "Interview Pending",
+                    "Interview Done",
+                    "Interview Selected",
+                    "Joined",
+                    "1 month Completed",
+                    "2 months Completed",
+                    "3 Months Completed",
                   ],
                   onChanged: (val) => setState(() => feedbackStatus = val!),
                 ),
 
                 //select loan type
-                buildDropdown(
-                  value: loanType,
-                  hint: 'Select Loan Type',
-                  items: [
-                    "Home Loan",
-                    "Mortgage Loan",
-                    "User Car Loan",
-                    "Business Loan",
-                    "Personal Loan",
-                    "DOD",
-                    "CC/OD",
-                    "CGTMSME",
-                    "Mutual Fund",
-                    "Insurance",
-                    "Other",
-                  ],
-                  onChanged:
-                      (val) => setState(() {
-                        loanType = val!;
-                      }),
-                ),
+                // buildDropdown(
+                //   value: loanType,
+                //   hint: 'Select Loan Type',
+                //   items: [
+                //     "Home Loan",
+                //     "Mortgage Loan",
+                //     "User Car Loan",
+                //     "Business Loan",
+                //     "Personal Loan",
+                //     "DOD",
+                //     "CC/OD",
+                //     "CGTMSME",
+                //     "Mutual Fund",
+                //     "Insurance",
+                //     "Other",
+                //   ],
+                //   onChanged:
+                //       (val) => setState(() {
+                //         loanType = val!;
+                //       }),
+                // ),
 
                 /// Priority Dropdown
-                buildDropdown(
-                  value: priority,
-                  hint: 'Select Priority',
-                  items: [
-                    // 'High Priority and Urgent',
-                    // 'Med',
-                    // 'Lower',
-                    // "Important",
-                    "Priority",
-                    "Non-Priority",
-                  ],
-                  onChanged: (val) => setState(() => priority = val!),
-                ),
-
+                // buildDropdown(
+                //   value: priority,
+                //   hint: 'Select Priority',
+                //   items: [
+                //     // 'High Priority and Urgent',
+                //     // 'Med',
+                //     // 'Lower',
+                //     // "Important",
+                //     "Priority",
+                //     "Non-Priority",
+                //   ],
+                //   onChanged: (val) => setState(() => priority = val!),
+                // ),
                 GestureDetector(
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime.now(),
-                      lastDate: DateTime(DateTime.now().year + 1),
+                      lastDate: DateTime(2050),
                     );
+
                     if (pickedDate != null) {
-                      nextMeetingController.text =
-                          pickedDate.toLocal().toString().split(
-                            ' ',
-                          )[0]; // or use DateFormat
+                      TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+
+                      if (pickedTime != null) {
+                        // Combine date and time into one DateTime
+                        DateTime finalDateTime = DateTime(
+                          pickedDate.year,
+                          pickedDate.month,
+                          pickedDate.day,
+                          pickedTime.hour,
+                          pickedTime.minute,
+                        );
+
+                        // Format as desired, e.g., YYYY-MM-DD HH:MM
+                        nextMeetingController.text = finalDateTime.toString();
+                        // OR use intl package for prettier format:
+                        // nextMeetingTimeController.text = DateFormat('yyyy-MM-dd HH:mm').format(finalDateTime);
+                      }
                     }
                   },
                   child: AbsorbPointer(
                     child: TextFormField(
                       controller: nextMeetingController,
                       decoration: InputDecoration(
-                        hintText: 'Select Next Meeting Date',
+                        hintText: 'Select Next Calling Date',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -363,7 +388,7 @@ class _CallDetailsScreenState extends State<CallDetailsScreen> {
                 /// Budget
                 buildTextField(
                   controller: budgetController,
-                  hint: 'EstimationBudget',
+                  hint: 'Estimated Salary',
                   keyboardType: TextInputType.number,
                 ),
 
@@ -389,22 +414,26 @@ class _CallDetailsScreenState extends State<CallDetailsScreen> {
                           controller: contactNameController,
                           hint: "Contact Name",
                         ),
-                        buildDropdown(
-                          value: source,
-                          hint: "--Select Source--",
-                          items: [
-                            // "Internet",
-                            // "Newspaper",
-                            // "Website",
-                            "Self",
-                            "Refrence",
-                            "Bulk excel",
-                          ],
-                          onChanged: (value) {
-                            source = value;
-                            setState(() {});
-                          },
+                        buildTextField(
+                          controller: companyNameController,
+                          hint: "Company Name",
                         ),
+                        // buildDropdown(
+                        //   value: source,
+                        //   hint: "--Select Source--",
+                        //   items: [
+                        //     // "Internet",
+                        //     // "Newspaper",
+                        //     // "Website",
+                        //     "Self",
+                        //     "Refrence",
+                        //     "Bulk excel",
+                        //   ],
+                        //   onChanged: (value) {
+                        //     source = value;
+                        //     setState(() {});
+                        //   },
+                        // ),
                         buildTextField(
                           controller: descriptionController,
                           hint: "Description",

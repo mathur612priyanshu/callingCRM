@@ -111,17 +111,17 @@ class AppScaffold extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => Attendancescreen()),
                   ),
             ),
-            _drawerItem(
-              Icons.phone_in_talk_rounded,
-              "AutoCall Dashboard",
-              onTap:
-                  () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AutoCallDashboard(),
-                    ),
-                  ),
-            ),
+            // _drawerItem(
+            //   Icons.phone_in_talk_rounded,
+            //   "AutoCall Dashboard",
+            //   onTap:
+            //       () => Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //           builder: (context) => AutoCallDashboard(),
+            //         ),
+            //       ),
+            // ),
             _drawerItem(
               Icons.man,
               "Leads",
@@ -243,6 +243,8 @@ class AppScaffold extends StatelessWidget {
                     FlutterSecureStorage();
 
                 await _secureStorage.delete(key: "auth_token");
+                await _secureStorage.delete(key: "userId");
+                await _secureStorage.delete(key: "loginTime");
 
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => const LoginScreen()),

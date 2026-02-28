@@ -182,10 +182,22 @@ exports.getLeadsForAdminPanel = async (req, res) => {
         : {};
 
     // 🛡️ Final where clause
-    const whereCondition = {
-      ...searchCondition,
-      ...dateCondition,
-    };
+let whereCondition = {};
+
+if (search) {
+  // 🔍 Only search filter (ignore date)
+  whereCondition = searchCondition;
+} else if (fromDate && toDate) {
+  // 📅 Only date filter (when no search)
+  whereCondition = {
+    createdAt: {
+      [Op.between]: [
+        new Date(fromDate),
+        new Date(new Date(toDate).setHours(23, 59, 59, 999)),
+      ],
+    },
+  };
+}
 
     // 🔍 Find leads with filters + pagination
     const { rows: leads, count: totalCount } = await Lead.findAndCountAll({

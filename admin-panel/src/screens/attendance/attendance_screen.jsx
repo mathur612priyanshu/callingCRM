@@ -8,86 +8,45 @@ const AttendanceScreen = () => {
   const [loading, setLoading] = useState(true);
   const [employees, setEmployees] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(() => {
-    const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
+    const currentMonth = new Date().toISOString().slice(0, 7);
     return currentMonth;
   });
   const [currentPage, setCurrentPage] = useState(1);
-const recordsPerPage = 20; 
-const indexOfLastRecord = currentPage * recordsPerPage;
-const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const [addressCache, setAddressCache] = useState({}); // Cache for addresses
+  const recordsPerPage = 20;
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
 
-
-  const downloadExcel = () => {
-  const sheetData = [
-    [
-      "Emp ID",
-      "Name",
-      "Total",
-      "Full",
-      "Late",
-      ...[...Array(totalDays)].map((_, i) => `Day ${i + 1}`),
-    ],
-  ];
-
-  currentRecords.forEach((emp) => {
-    const row = [
-      emp.userId,
-      emp.name,
-      emp.total,
-      emp.full,
-      emp.late,
-      ...emp.days.map((day) => {
-        if (!day.symbol) return "-";
-        return `${day.symbol} (${day.startTime || "-"} - ${day.endTime || "-"})\nRemark: ${day.remark || "-"}`;
-      }),
-    ];
-    sheetData.push(row);
-  });
-
-  const ws = XLSX.utils.aoa_to_sheet(sheetData);
-
-  // Enable text wrap in all cells
-  const range = XLSX.utils.decode_range(ws['!ref']);
-  for (let R = range.s.r; R <= range.e.r; ++R) {
-    for (let C = range.s.c; C <= range.e.c; ++C) {
-      const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
-      if (!ws[cellRef]) continue;
-      if (!ws[cellRef].s) ws[cellRef].s = {};
-      ws[cellRef].s.alignment = { wrapText: true, vertical: "top" };
+  const getAddress = async (lat, lng) => {
+    if (!lat || !lng) return "-";
+    
+    // Create a cache key
+    const cacheKey = `${lat},${lng}`;
+    
+    // Return from cache if available
+    if (addressCache[cacheKey]) {
+      return addressCache[cacheKey];
     }
-  }
-
-  // Auto column widths
-  const colWidths = sheetData[0].map((_, colIndex) => {
-    let maxLength = 10;
-    sheetData.forEach(row => {
-      const val = row[colIndex];
-      const len = val ? val.toString().length : 0;
-      if (len > maxLength) maxLength = len;
-    });
-    return { wch: maxLength + 2 }; // Add padding
-  });
-  ws['!cols'] = colWidths;
-
-  // Bold headers (first row)
-  sheetData[0].forEach((_, i) => {
-    const cellRef = XLSX.utils.encode_cell({ r: 0, c: i });
-    if (ws[cellRef]) {
-      ws[cellRef].s = {
-        ...(ws[cellRef].s || {}),
-        font: { bold: true },
-        alignment: { wrapText: true, horizontal: "center" },
-      };
+    
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+      );
+      const data = await res.json();
+      const address = data.display_name || "-";
+      
+      // Update cache
+      setAddressCache(prev => ({
+        ...prev,
+        [cacheKey]: address
+      }));
+      
+      return address;
+    } catch (error) {
+      console.error("Error fetching address:", error);
+      return "-";
     }
-  });
-
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Attendance");
-
-  // Important: apply style support
-  XLSX.writeFile(wb, `attendance_${selectedMonth}.xlsx`, { cellStyles: true });
-};
-
+  };
 
   const formatToLocalTime = (isoString) => {
     if (!isoString) return "-";
@@ -97,6 +56,7 @@ const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
       minute: "2-digit",
     });
   };
+
   // Fetch attendance data
   useEffect(() => {
     const fetchAttendance = async () => {
@@ -106,7 +66,6 @@ const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
           `${API_URL}/monthlyattendance/${selectedMonth}`
         );
         setAttendanceData(response.data.attendance);
-        
       } catch (error) {
         console.error("Error fetching attendance data", error);
       } finally {
@@ -131,6 +90,98 @@ const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     fetchEmployees();
   }, []);
 
+  // Fetch addresses for all attendance records
+  useEffect(() => {
+    const fetchAllAddresses = async () => {
+      const addressPromises = [];
+      
+      attendanceData.forEach((record) => {
+        const { latitude, longitude } = record;
+        if (latitude && longitude) {
+          const cacheKey = `${latitude},${longitude}`;
+          if (!addressCache[cacheKey]) {
+            addressPromises.push(getAddress(latitude, longitude));
+          }
+        }
+      });
+      
+      await Promise.all(addressPromises);
+    };
+    
+    if (attendanceData.length > 0) {
+      fetchAllAddresses();
+    }
+  }, [attendanceData]);
+
+  const downloadExcel = () => {
+    const sheetData = [
+      [
+        "Emp ID",
+        "Name",
+        "Total",
+        "Full",
+        "Late",
+        ...[...Array(totalDays)].map((_, i) => `Day ${i + 1}`),
+      ],
+    ];
+
+    currentRecords.forEach((emp) => {
+      const row = [
+        emp.userId,
+        emp.name,
+        emp.total,
+        emp.full,
+        emp.late,
+        ...emp.days.map((day) => {
+          if (!day.symbol) return "-";
+          return `${day.symbol} (${day.startTime || "-"} - ${day.endTime || "-"})\nRemark: ${day.remark || "-"}\nLocation: ${day.location || "-"}`;
+        }),
+      ];
+      sheetData.push(row);
+    });
+
+    const ws = XLSX.utils.aoa_to_sheet(sheetData);
+
+    // Enable text wrap in all cells
+    const range = XLSX.utils.decode_range(ws['!ref']);
+    for (let R = range.s.r; R <= range.e.r; ++R) {
+      for (let C = range.s.c; C <= range.e.c; ++C) {
+        const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
+        if (!ws[cellRef]) continue;
+        if (!ws[cellRef].s) ws[cellRef].s = {};
+        ws[cellRef].s.alignment = { wrapText: true, vertical: "top" };
+      }
+    }
+
+    // Auto column widths
+    const colWidths = sheetData[0].map((_, colIndex) => {
+      let maxLength = 10;
+      sheetData.forEach(row => {
+        const val = row[colIndex];
+        const len = val ? val.toString().length : 0;
+        if (len > maxLength) maxLength = len;
+      });
+      return { wch: maxLength + 2 };
+    });
+    ws['!cols'] = colWidths;
+
+    // Bold headers (first row)
+    sheetData[0].forEach((_, i) => {
+      const cellRef = XLSX.utils.encode_cell({ r: 0, c: i });
+      if (ws[cellRef]) {
+        ws[cellRef].s = {
+          ...(ws[cellRef].s || {}),
+          font: { bold: true },
+          alignment: { wrapText: true, horizontal: "center" },
+        };
+      }
+    });
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Attendance");
+    XLSX.writeFile(wb, `attendance_${selectedMonth}.xlsx`, { cellStyles: true });
+  };
+
   // Helpers
   const getDaysInMonth = (monthStr) => {
     const [year, month] = monthStr.split("-").map(Number);
@@ -139,17 +190,27 @@ const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
 
   // Group attendance by userId and date
   const groupedAttendance = {};
+  
+  // Process attendance data with addresses from cache
   attendanceData.forEach((record) => {
-    const { userId, date, isLate, startTime, endTime, remark } = record;
+    const { userId, date, isLate, startTime, endTime, remark, latitude, longitude } = record;
     const day = new Date(date).getDate();
+    
     if (!groupedAttendance[userId]) groupedAttendance[userId] = {};
+    
+    const cacheKey = latitude && longitude ? `${latitude},${longitude}` : null;
+    const location = cacheKey && addressCache[cacheKey] ? addressCache[cacheKey] : "Loading...";
+    
     groupedAttendance[userId][day] = {
-    symbol: isLate ? "🟨" : "✅",
-    className: isLate ? "bg-yellow-100" : "bg-green-100",
-    startTime : formatToLocalTime(startTime),
-    endTime : formatToLocalTime(endTime),
-    remark,
-  };
+      symbol: isLate ? "🟨" : "✅",
+      className: isLate ? "bg-yellow-100" : "bg-green-100",
+      startTime: formatToLocalTime(startTime),
+      endTime: formatToLocalTime(endTime),
+      remark,
+      location: location,
+      latitude,
+      longitude
+    };
   });
 
   // Final processed data
@@ -162,10 +223,10 @@ const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     for (let i = 1; i <= totalDays; i++) {
       const status = groupedAttendance[emp.emp_id]?.[i];
       if (status) {
-        days.push(status); // already contains symbol, className, startTime, etc.
+        days.push(status);
         if(status.symbol === "✅") {
           full++;
-        }else if(status.symbol === "🟨"){
+        } else if(status.symbol === "🟨") {
           late++;
         }
       } else {
@@ -184,62 +245,60 @@ const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   });
 
   const currentRecords = processedData.slice(indexOfFirstRecord, indexOfLastRecord);
-
-const totalPages = Math.ceil(processedData.length / recordsPerPage);
+  const totalPages = Math.ceil(processedData.length / recordsPerPage);
 
   const renderPageNumbers = () => {
-  const maxVisible = 5;
-  let startPage = Math.max(currentPage - Math.floor(maxVisible / 2), 1);
-  let endPage = startPage + maxVisible - 1;
+    const maxVisible = 5;
+    let startPage = Math.max(currentPage - Math.floor(maxVisible / 2), 1);
+    let endPage = startPage + maxVisible - 1;
 
-  if (endPage > totalPages) {
-    endPage = totalPages;
-    startPage = Math.max(endPage - maxVisible + 1, 1);
-  }
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = Math.max(endPage - maxVisible + 1, 1);
+    }
 
-  const pages = [];
+    const pages = [];
 
-  if (currentPage > 1) {
-    pages.push(
-      <button
-        key="prev"
-        onClick={() => setCurrentPage(currentPage - 1)}
-        className="px-3 py-1 border bg-white"
-      >
-        Prev
-      </button>
-    );
-  }
+    if (currentPage > 1) {
+      pages.push(
+        <button
+          key="prev"
+          onClick={() => setCurrentPage(currentPage - 1)}
+          className="px-3 py-1 border bg-white"
+        >
+          Prev
+        </button>
+      );
+    }
 
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(
-      <button
-        key={i}
-        onClick={() => setCurrentPage(i)}
-        className={`px-3 py-1 border ${
-          i === currentPage ? "bg-blue-500 text-white" : "bg-white"
-        }`}
-      >
-        {i}
-      </button>
-    );
-  }
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(
+        <button
+          key={i}
+          onClick={() => setCurrentPage(i)}
+          className={`px-3 py-1 border ${
+            i === currentPage ? "bg-blue-500 text-white" : "bg-white"
+          }`}
+        >
+          {i}
+        </button>
+      );
+    }
 
-  if (currentPage < totalPages) {
-    pages.push(
-      <button
-        key="next"
-        onClick={() => setCurrentPage(currentPage + 1)}
-        className="px-3 py-1 border bg-white"
-      >
-        Next
-      </button>
-    );
-  }
+    if (currentPage < totalPages) {
+      pages.push(
+        <button
+          key="next"
+          onClick={() => setCurrentPage(currentPage + 1)}
+          className="px-3 py-1 border bg-white"
+        >
+          Next
+        </button>
+      );
+    }
 
-  return pages;
-};
-
+    return pages;
+  };
 
   return (
     <div className="p-4 overflow-auto">
@@ -267,15 +326,12 @@ const totalPages = Math.ceil(processedData.length / recordsPerPage);
         </div>
         
         <button
-    onClick={downloadExcel}
-    className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition-all"
-  >
-    Download Excel
-  </button>
-
+          onClick={downloadExcel}
+          className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition-all"
+        >
+          Download Excel
+        </button>
       </div>
-
-
 
       {loading ? (
         <p className="mt-4">Loading attendance...</p>
@@ -305,16 +361,15 @@ const totalPages = Math.ceil(processedData.length / recordsPerPage);
                   {emp.days.map((day, i) => (
                     <td
                       key={i}
-                      className={`border px-1 py-1 ${day.className}`}
+                      className={`border px-1 py-1 ${day.className || ""}`}
                       title={
                         day.symbol
-                          ? `Start: ${day.startTime || "-"}\nClose: ${day.endTime || "-"}\nRemark: ${day.remark || "-"}`
+                          ? `Start: ${day.startTime || "-"}\nClose: ${day.endTime || "-"}\nRemark: ${day.remark || "-"}\nLocation: ${day.location || "-"}`
                           : ""
                       }
                     >
                       {day.symbol}
                     </td>
-
                   ))}
                 </tr>
               ))}
@@ -323,8 +378,8 @@ const totalPages = Math.ceil(processedData.length / recordsPerPage);
         </div>
       )}
       <div className="flex gap-2 justify-center mt-4 flex-wrap">
-  {renderPageNumbers()}
-</div>
+        {renderPageNumbers()}
+      </div>
     </div>
   );
 };

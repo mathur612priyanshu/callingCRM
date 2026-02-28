@@ -28,6 +28,7 @@ class _AttendancescreenState extends State<Attendancescreen> {
   bool isLate = false;
   final storage = FlutterSecureStorage();
   var token;
+  Position? position;
 
   @override
   void initState() {
@@ -50,6 +51,7 @@ class _AttendancescreenState extends State<Attendancescreen> {
           'authorization': 'Bearer $token',
         },
       );
+      print("===========================> ${response.body}");
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         isAttendanceMarked = responseData['alreadyMarked'] ?? false;
@@ -63,7 +65,7 @@ class _AttendancescreenState extends State<Attendancescreen> {
           }
         });
       } else {
-        print("error fetching attendance details=> ${response}");
+        print("error fetching attendance details=> ${response.body}");
       }
     } catch (error) {
       print("error fetching attendance status => ${error}");
@@ -190,7 +192,7 @@ class _AttendancescreenState extends State<Attendancescreen> {
   //   );
   // }
 
-  Future<void> _checkLocationAndMarkAttendance() async {
+  Future<void> _getLocationAndMarkAttendance() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       setState(() => attendanceStatus = 'Device location is Disabled');
@@ -213,28 +215,28 @@ class _AttendancescreenState extends State<Attendancescreen> {
       return;
     }
 
-    Position position = await Geolocator.getCurrentPosition(
+    position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
 
-    double distanceInMeters = Geolocator.distanceBetween(
-      28.583967,
-      77.313246,
-      position.latitude,
-      position.longitude,
-    );
+    // double distanceInMeters = Geolocator.distanceBetween(
+    //   28.583967,
+    //   77.313246,
+    //   position.latitude,
+    //   position.longitude,
+    // );
 
-    if (distanceInMeters <= 20) {
-      if (isAttendanceMarked) {
-        await _closeAttendance();
-      } else {
-        await _markAttendanceStart();
-      }
+    // if (distanceInMeters <= 20) {
+    if (isAttendanceMarked) {
+      await _closeAttendance();
     } else {
-      setState(() {
-        attendanceStatus = 'You are not within 20 meters of office.';
-      });
+      await _markAttendanceStart();
     }
+    // } else {
+    // setState(() {
+    //   attendanceStatus = 'You are not within 20 meters of office.';
+    // });
+    // }
   }
 
   Future<void> _markAttendanceStart() async {
@@ -254,6 +256,8 @@ class _AttendancescreenState extends State<Attendancescreen> {
           // 'locationName': "office",
           'isLate': isLate,
           'remark': _reasonController.text,
+          'latitude': position!.latitude,
+          'longitude': position!.longitude,
         }),
       );
 
@@ -344,7 +348,7 @@ class _AttendancescreenState extends State<Attendancescreen> {
                       _reasonController.text.trim().length >= 5
                           ? () {
                             isLate = true;
-                            _checkLocationAndMarkAttendance();
+                            _getLocationAndMarkAttendance();
                             Navigator.of(context).pop();
                           }
                           : null, // disabled if text too short
@@ -384,7 +388,7 @@ class _AttendancescreenState extends State<Attendancescreen> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                _checkLocationAndMarkAttendance();
+                _getLocationAndMarkAttendance();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
@@ -442,12 +446,12 @@ class _AttendancescreenState extends State<Attendancescreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Ensure that you are at least 20 meters \n  within the specified location.',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 20),
+                  // Text(
+                  //   'Ensure that you are at least 20 meters \n  within the specified location.',
+                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  //   textAlign: TextAlign.center,
+                  // ),
+                  // SizedBox(height: 20),
                   Icon(Icons.location_on, size: 100, color: Colors.white),
                   SizedBox(height: 30),
                   Container(
@@ -483,7 +487,7 @@ class _AttendancescreenState extends State<Attendancescreen> {
                               ? _customDialog
                               : (now.hour == 10 && now.minute > 10)
                               ? _customDialog
-                              : _checkLocationAndMarkAttendance,
+                              : _getLocationAndMarkAttendance,
                       child:
                           isLoading
                               ? null

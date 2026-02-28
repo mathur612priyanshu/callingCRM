@@ -254,19 +254,19 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen>
                                           contactNumber:
                                               widget.lead.number ?? '',
                                           // email: widget.lead.email ?? '',
-                                          source: widget.lead.source ?? '',
-                                          priority: widget.lead.priority ?? '',
+                                          // source: widget.lead.source ?? '',
+                                          // priority: widget.lead.priority ?? '',
                                           status: widget.lead.status ?? '',
                                           next_meeting:
                                               widget.lead.next_meeting ?? '',
-                                          refrence: widget.lead.refrence ?? '',
+                                          // refrence: widget.lead.refrence ?? '',
                                           description:
                                               widget.lead.description ?? '',
                                           address: widget.lead.address ?? '',
-                                          loanType: widget.lead.loanType ?? '',
+                                          // loanType: widget.lead.loanType ?? '',
                                           // dob: widget.lead.dob ?? '',
-                                          loanAmount:
-                                              widget.lead.est_budget ?? '',
+                                          // loanAmount:
+                                          //     widget.lead.est_budget ?? '',
                                           // loanTerm: widget.lead.loan_term ?? '',
                                           employmentType:
                                               widget.lead.employment_type ?? '',
@@ -286,7 +286,7 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             _buildChip(
-                              "\u20B9 ${widget.lead.est_budget ?? '0.00'}",
+                              "\u20B9 ${widget.lead.est_salary ?? '0.00'}",
                               Colors.purple.shade100,
                             ),
                             _buildChip(
@@ -351,12 +351,11 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen>
                         const SizedBox(height: 8),
 
                         /// Loan Type
-                        _buildIconRow(
-                          Icons.monetization_on,
-                          Colors.teal,
-                          "Loan Type: ${widget.lead.loanType ?? '-'}",
-                        ),
-
+                        // _buildIconRow(
+                        //   Icons.monetization_on,
+                        //   Colors.teal,
+                        //   "Loan Type: ${widget.lead.loanType ?? '-'}",
+                        // ),
                         const SizedBox(height: 8),
 
                         /// Loan Term
@@ -375,11 +374,11 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen>
                         ),
 
                         /// salary
-                        _buildIconRow(
-                          Icons.money,
-                          Colors.lightGreen,
-                          "Salary: ${widget.lead.salary ?? '-'}",
-                        ),
+                        // _buildIconRow(
+                        //   Icons.money,
+                        //   Colors.lightGreen,
+                        //   "Salary: ${widget.lead.salary ?? '-'}",
+                        // ),
                       ],
                     ),
                   ),
@@ -408,11 +407,11 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen>
                       const Divider(),
                       _buildDetailRow("Assigned To :", widget.lead.owner ?? ''),
                       _buildDetailRow("Added By :", widget.lead.owner ?? ''),
-                      _buildDetailRow("Source :", widget.lead.source ?? ''),
-                      _buildDetailRow(
-                        "Reference :",
-                        widget.lead.refrence ?? '',
-                      ),
+                      // _buildDetailRow("Source :", widget.lead.source ?? ''),
+                      // _buildDetailRow(
+                      //   "Reference :",
+                      //   widget.lead.refrence ?? '',
+                      // ),
                       _buildDetailRow(
                         "Description :",
                         widget.lead.description ?? '',
@@ -530,11 +529,11 @@ class _LeadDetailsScreenState extends State<LeadDetailsScreen>
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 2),
-                                Text(
-                                  "Loan Type : ${entry.loanType ?? ''}",
-                                  style: TextStyle(color: Colors.purple),
-                                ),
+                                // SizedBox(height: 2),
+                                // Text(
+                                //   "Loan Type : ${entry.loanType ?? ''}",
+                                //   style: TextStyle(color: Colors.purple),
+                                // ),
                                 SizedBox(height: 2),
                                 Text(
                                   "Schedule : $nextMeeting",

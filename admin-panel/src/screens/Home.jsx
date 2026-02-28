@@ -33,9 +33,15 @@ const Home = () => {
   const callBackLeads = leads.filter(lead => lead.status === 'Call Back');
   const noRequirementLeads = leads.filter(lead => lead.status === 'No Requirement');
   const followUps = leads.filter(lead => lead.status === 'Follow up');
-  const documentRejects = leads.filter(lead => lead.status === 'Document Reject');
-  const documentsPending = leads.filter(lead => lead.status === 'Document Pending');
-  const fileLogins = leads.filter(lead => lead.status === 'File Login');
+  const interviewRejects = leads.filter(lead => lead.status === 'Interview Reject');
+  const interviewPending = leads.filter(lead => lead.status === 'Interview Pending');
+  const interviewDone = leads.filter(lead => lead.status === 'Interview Done');
+  const interviewSelected = leads.filter(lead => lead.status === 'Interview Selected');
+  const joined = leads.filter(lead => lead.status === 'Joined');
+  const oneMonthCompleted = leads.filter(lead => lead.status === '1 Month Completed');
+  const twoMonthsCompleted = leads.filter(lead => lead.status === '2 Months Completed');
+  const threeMonthsCompleted = leads.filter(lead => lead.status === '3 Months Completed');
+  // const fileLogins = leads.filter(lead => lead.status === 'File Login');
   const loanSections = leads.filter(lead => lead.status === 'Loan Section');
   const loanDisbursements = leads.filter(lead => lead.status === 'Loan Disbursement');
   const homeLoanLeads = leads.filter(lead => lead.loan_type === 'Home Loan');
@@ -129,10 +135,10 @@ const Home = () => {
       setModalLeads(interestedLeads);
     } else if (title === 'Follow ups') {  
       setModalLeads(followUps);
-    } else if (title === 'File Login') {
-      setModalLeads(fileLogins);
-    } else if (title === 'Documents Pending') {
-      setModalLeads(documentsPending);
+    } else if (title === 'Joined') {
+      setModalLeads(joined);
+    } else if (title === 'Interview Pending') {
+      setModalLeads(interviewPending);
     } else if (title === 'Today Followups') {
       setModalLeads(todayFollowups);
     } else if(title === 'Tomorrow Followups') {
@@ -158,8 +164,8 @@ const Home = () => {
   const matricsData2 = [
     { title: 'Interested Leads', value: interestedLeads.length, icon: <CheckCircle className="w-5 h-5" /> },
     { title: 'Follow ups', value: followUps.length, icon: <FileText className="w-5 h-5" /> },
-    { title: 'File Login', value: fileLogins.length, icon: <FileText className="w-5 h-5" /> },
-    { title: 'Documents Pending', value: documentsPending.length, icon: <XCircle className="w-5 h-5" /> },
+    { title: 'Joined', value: joined.length, icon: <FileText className="w-5 h-5" /> },
+    { title: 'Interview Pending', value: interviewPending.length, icon: <XCircle className="w-5 h-5" /> },
     { title: 'Fresh Leads', value: freshLeads.length, icon: <Users className="w-5 h-5" /> },
     { title: 'Pending Followups', value: pendingFollowups.length, icon: <Calendar className="w-5 h-5" /> }
   ];
@@ -170,26 +176,26 @@ const Home = () => {
     { name: "Call Back", value: callBackLeads.length, color: "#60a5fa" },       // Sky Blue
     { name: "Follow up", value: followUps.length, color: "#a5b4fc" },           // Indigo
     { name: "No Requirement", value: noRequirementLeads.length, color: "#f87171" }, // Red
-    { name: "Document Reject", value: documentRejects.length, color: "#10b981" },   // Green
-    { name: "Document Pending", value: documentsPending.length, color: "#f59e0b" }, // Amber
-    { name: "File Login", value: fileLogins.length, color: "#6366f1" },             // Indigo
+    { name: "Interview Reject", value: interviewRejects.length, color: "#10b981" },   // Green
+    { name: "Interview Pending", value: interviewPending.length, color: "#f59e0b" }, // Amber
+    { name: "Joined", value: joined.length, color: "#6366f1" },             // Indigo
     { name: "Loan Section", value: loanSections.length, color: "#ec4899" },         // Pink
     { name: "Loan Disbursement", value: loanDisbursements.length, color: "#22d3ee" } // Cyan
   ];
 
-  const pieData = [
-    { name: 'Home Loans', value: homeLoanLeads.length, color: '#3b82f6' },
-    { name: 'User Car Loans', value: userCarLoanLeads.length, color: '#f97316' },
-    { name: 'Business Loans', value: businessLoanLeads.length, color: '#f59e0b' },
-    { name: 'Personal Loans', value: personalLoanLeads.length, color: '#10b981' },
-    { name: 'DOD Loans', value: dodLoanLeads.length, color: '#f43f5e' },
-    { name: 'Mortgage Loans', value: mortgageLoanLeads.length, color: '#8b5cf6' },
-    { name: 'CC/OD', value: ccOdLeads.length, color: '#4ade80' },
-    { name: 'CGTMSME', value: cgtmsmeLeads.length, color: '#a78bfa' },
-    { name: 'Mutual Fund', value: mutualFundLeads.length, color: '#8b5cf6' },
-    { name: 'Insurance', value: insuranceLeads.length, color: '#ec4899' },
-    { name: 'Other', value: otherLeads.length, color: '#f43f5e' }
-  ];
+  // const pieData = [
+  //   { name: 'Home Loans', value: homeLoanLeads.length, color: '#3b82f6' },
+  //   { name: 'User Car Loans', value: userCarLoanLeads.length, color: '#f97316' },
+  //   { name: 'Business Loans', value: businessLoanLeads.length, color: '#f59e0b' },
+  //   { name: 'Personal Loans', value: personalLoanLeads.length, color: '#10b981' },
+  //   { name: 'DOD Loans', value: dodLoanLeads.length, color: '#f43f5e' },
+  //   { name: 'Mortgage Loans', value: mortgageLoanLeads.length, color: '#8b5cf6' },
+  //   { name: 'CC/OD', value: ccOdLeads.length, color: '#4ade80' },
+  //   { name: 'CGTMSME', value: cgtmsmeLeads.length, color: '#a78bfa' },
+  //   { name: 'Mutual Fund', value: mutualFundLeads.length, color: '#8b5cf6' },
+  //   { name: 'Insurance', value: insuranceLeads.length, color: '#ec4899' },
+  //   { name: 'Other', value: otherLeads.length, color: '#f43f5e' }
+  // ];
 
   const MetricCard = ({ title, value, icon}) => (
     <div 
@@ -207,57 +213,57 @@ const Home = () => {
     </div>
   );
 
-  const CustomPieChart = ({ data }) => {
-    return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <h2 className="text-lg font-semibold text-gray-700 mb-4">
-          Leads by Loan Type
-        </h2>
+  // const CustomPieChart = ({ data }) => {
+  //   return (
+  //     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+  //       <h2 className="text-lg font-semibold text-gray-700 mb-4">
+  //         Leads by Loan Type
+  //       </h2>
 
-        <div className="flex flex-col md:flex-row justify-center items-center gap-8">
-          {/* Pie Chart */}
-          <div className="w-full md:w-1/2 h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={data}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={90}
-                  label
-                >
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{ fontSize: "13px" }}
-                  labelStyle={{ fontWeight: "bold" }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
+  //       <div className="flex flex-col md:flex-row justify-center items-center gap-8">
+  //         {/* Pie Chart */}
+  //         <div className="w-full md:w-1/2 h-[300px]">
+  //           <ResponsiveContainer width="100%" height="100%">
+  //             <PieChart>
+  //               <Pie
+  //                 data={data}
+  //                 dataKey="value"
+  //                 nameKey="name"
+  //                 cx="50%"
+  //                 cy="50%"
+  //                 outerRadius={90}
+  //                 label
+  //               >
+  //                 {data.map((entry, index) => (
+  //                   <Cell key={`cell-${index}`} fill={entry.color} />
+  //                 ))}
+  //               </Pie>
+  //               <Tooltip
+  //                 contentStyle={{ fontSize: "13px" }}
+  //                 labelStyle={{ fontWeight: "bold" }}
+  //               />
+  //             </PieChart>
+  //           </ResponsiveContainer>
+  //         </div>
 
-          {/* Legend on the right */}
-          <div className="flex flex-col space-y-2">
-            {data.map((entry, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <span
-                  className="w-4 h-4 rounded-full inline-block"
-                  style={{ backgroundColor: entry.color }}
-                ></span>
-                <span className="text-sm text-gray-700 font-medium">
-                  {entry.name}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  };
+  //         {/* Legend on the right */}
+  //         <div className="flex flex-col space-y-2">
+  //           {data.map((entry, index) => (
+  //             <div key={index} className="flex items-center gap-2">
+  //               <span
+  //                 className="w-4 h-4 rounded-full inline-block"
+  //                 style={{ backgroundColor: entry.color }}
+  //               ></span>
+  //               <span className="text-sm text-gray-700 font-medium">
+  //                 {entry.name}
+  //               </span>
+  //             </div>
+  //           ))}
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const CustomBarChart = ({ data, title = "Bar Chart", height = 380 }) => {
     return (
@@ -378,10 +384,10 @@ const Home = () => {
           <CustomBarChart data={leadsData} title="Leads by Status" />
         </div>
 
-        <div className="grid grid-cols-1 gap-8 mb-8">
+        {/* <div className="grid grid-cols-1 gap-8 mb-8">
           <CustomPieChart data={pieData} />
           <CustomBarChart data={pieData} title="Leads by Loan Type" height={400} />
-        </div>
+        </div> */}
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-gray-50">

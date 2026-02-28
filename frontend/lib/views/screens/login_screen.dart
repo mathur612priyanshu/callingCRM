@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     try {
       final user = await ApiService.login(userName, password);
-
+      if (!mounted) return;
       await Provider.of<UserProvider>(
         context,
         listen: false,

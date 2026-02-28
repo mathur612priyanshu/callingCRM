@@ -28,11 +28,11 @@ class DynamicPieChart extends StatelessWidget {
   Widget build(BuildContext context) {
     // Count leads per source
     Map<String, int> sourceCounts = {for (var s in sources) s: 0};
-    for (var lead in leads) {
-      if (sourceCounts.containsKey(lead.source)) {
-        sourceCounts[lead.source] = sourceCounts[lead.source]! + 1;
-      }
-    }
+    // for (var lead in leads) {
+    //   if (sourceCounts.containsKey(lead.source)) {
+    //     sourceCounts[lead.source] = sourceCounts[lead.source]! + 1;
+    //   }
+    // }
 
     final total = sourceCounts.values.fold(0, (a, b) => a + b);
 

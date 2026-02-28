@@ -105,33 +105,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: CustomAppbar(
         title: "DashBoard",
         action: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: OutlinedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Attendancescreen()),
-                );
-              },
-              child: Text(
-                "Check in/out",
-                style: TextStyle(color: Colors.white),
-              ),
-              style: OutlinedButton.styleFrom(
-                side: BorderSide(
-                  color: const Color.fromARGB(162, 255, 255, 255),
-                ), // This is the correct way
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 12,
-                ), // Adjust this value (default is 16)
-                minimumSize: Size(0, 36), // Remove minimum width constraint
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: OutlinedButton(
+          //     onPressed: () {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => Attendancescreen()),
+          //       );
+          //     },
+          //     child: Text(
+          //       "Check in/out",
+          //       style: TextStyle(color: Colors.white),
+          //     ),
+          //     style: OutlinedButton.styleFrom(
+          //       side: BorderSide(
+          //         color: const Color.fromARGB(162, 255, 255, 255),
+          //       ), // This is the correct way
+          //       shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(10),
+          //       ),
+          //       padding: EdgeInsets.symmetric(
+          //         horizontal: 12,
+          //       ), // Adjust this value (default is 16)
+          //       minimumSize: Size(0, 36), // Remove minimum width constraint
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       body: SafeArea(
@@ -256,13 +256,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     // Bar chart
                     DynamicBarChart(leads: leadsForGraph),
                     const SizedBox(height: 20),
-                    const Text(
-                      "Lead By Source",
-                      style: TextStyle(color: Colors.blue, fontSize: 17),
-                    ),
-                    const SizedBox(height: 16),
-                    //pie chart
-                    DynamicPieChart(leads: leadsForGraph),
+                    // const Text(
+                    //   "Lead By Source",
+                    //   style: TextStyle(color: Colors.blue, fontSize: 17),
+                    // ),
+                    // const SizedBox(height: 16),
+                    // //pie chart
+                    // DynamicPieChart(leads: leadsForGraph),
                   ],
                 ),
               );

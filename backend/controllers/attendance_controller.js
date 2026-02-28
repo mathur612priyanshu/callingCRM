@@ -8,7 +8,7 @@ const { json } = require("body-parser");
 
 const markattendance = async (req, res) => {
   const userId1 = req.user.id;
-  const { isLate, remark } = req.body;
+  const { isLate, remark, latitude, longitude } = req.body;
   // console.log(locationName, "=========?");
   try {
     const todayIST = moment().tz("Asia/Kolkata").format("YYYY-MM-DD");
@@ -29,7 +29,9 @@ const markattendance = async (req, res) => {
       startTime: moment().tz("Asia/Kolkata").toDate(),
       date: todayIST,
       isLate,
-      remark
+      remark,
+      latitude,
+      longitude
     });
     console.log("==============",attendance);
     res.status(200).json({message : "Successfully marked attendance", attendance});

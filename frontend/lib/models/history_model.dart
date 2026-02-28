@@ -4,7 +4,7 @@ class History {
   final owner;
   final next_meeting;
   final status;
-  final loanType;
+  // final loanType;
   final remark;
   final createdAt;
 
@@ -14,7 +14,7 @@ class History {
     this.owner,
     this.next_meeting,
     this.status,
-    this.loanType,
+    // this.loanType,
     this.remark,
     this.createdAt,
   });
@@ -25,7 +25,7 @@ class History {
     if (owner != null) json["owner"] = owner;
     if (owner != null) json["next_meeting"] = next_meeting;
     if (status != null) json["status"] = status;
-    if (loanType != null) json["loanType"] = loanType;
+    // if (loanType != null) json["loanType"] = loanType;
     if (remark != null) json["remark"] = remark;
     return json;
   }
@@ -36,7 +36,7 @@ class History {
       owner: json["owner"] ?? "",
       next_meeting: json["next_meeting"] ?? "",
       status: json["status"] ?? "",
-      loanType: json["loanType"] ?? "",
+      // loanType: json["loanType"] ?? "",
       remark: json["remark"] ?? "",
       createdAt: json["createdAt"] ?? "",
     );
